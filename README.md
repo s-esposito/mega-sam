@@ -21,25 +21,19 @@ arXiv 2024
 </span>
 </h4>
 
-<h4>
-Abstract
-</h4>
-<hr>
-We present a system that allows for accurate, fast, and robust estimation of camera parameters and depth maps from casual monocular videos of dynamic scenes.
+**TL;DR**: MegaSaM estimates cameras and dense structure, quickly and accurately, from any static or dynamic video.
 
 
-**Note**: 
 <hr>
-🚧 Kindly note that this repository is currently in the development phase. Please check back later.
+🚧 This repository is under development. Please check back later.
 
 Citation
 --------
-If you find this code useful, please consider citing:
 ```
  @article{li2024_MegaSaM,
   title     = {{MegaSaM}: Accurate, Fast and Robust Structure and Motion from Casual Dynamic Videos},
   author    = {Li, Zhengqi and Tucker, Richard and Cole, Forrester and Wang, Qianqian and Jin, Linyi and Ye, Vickie and Kanazawa, Angjoo and Holynski, Aleksander and Snavely, Noah},
-  journal={arXiv preprint},
+  journal   = {arXiv preprint},
   year      = {2024}
 }
 ```
