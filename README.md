@@ -25,7 +25,7 @@ arXiv 2024
 
 
 <hr>
-🚧 This repository is under development. Please check back later.
+🚧 Please check back later. 
 
 Citation
 --------
