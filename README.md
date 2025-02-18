@@ -11,6 +11,11 @@ Angjoo Kanazawa, Aleksander Holynski, Noah Snavely
 
 *This is not an officially supported Google product.*
 
+## Clone
+
+Make sure to clone the repository with the submodules by using:
+`git clone --recursive git@github.com:mega-sam/mega-sam.git`
+
 ## Instructions for installing dependencies
 
 ### Python Environment
@@ -30,11 +35,7 @@ Anaconda.
 
     `conda install xformers-0.0.22.post7-py310_cu11.8.0_pyt2.0.1.tar.bz2`
 
-3.  Copy Eigen and lietorch from
-    https://github.com/princeton-vl/DROID-SLAM/tree/main/thirdparty to
-    mega_sam_release/thirdparty folder
-
-4.  Compile the extensions for the camera tracking module: \
+3.  Compile the extensions for the camera tracking module: \
     `python setup.py install`
 
 ### Downloading pretrained checkpoints
