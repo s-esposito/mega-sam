@@ -47,12 +47,12 @@ Anaconda.
 
 2.  Download [DepthAnything checkpoint](https://huggingface.co/spaces/LiheYoung/Depth-Anything/blob/main/checkpoints/depth_anything_vitl14.pth) to
     mega-sam/Depth-Anything/checkpoints/depth_anything_vitl14.pth
-
+<!-- 
 3. clone unidepth folder from https://github.com/lpiccinelli-eth/UniDepth/tree/main/unidepth
-    to mega_sam_release/UniDepth/unidepth
-
+    to mega_sam_release/UniDepth/unidepth -->
+<!-- 
 4.  Include UniDepth checkpoint in
-    mega_sam_release/UniDepth/unidepth_v2.pth
+    mega_sam_release/UniDepth/unidepth_v2.pth -->
 
 5.  Include RAFT checkpoint at mega_sam_release/cvd_opt/raft-things.pth
 
