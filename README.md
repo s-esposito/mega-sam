@@ -1,6 +1,6 @@
 # MegaSaM
 
-# This repository is still in the process of being uploaded, please stand by. 
+# 🚧 This repository is still not done being uploaded, please stand by. 🚧 
 
 [Project Page]() | [Paper]()
 
