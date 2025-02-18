@@ -45,19 +45,16 @@ Anaconda.
 1.  Include a pretrained checkpoint in
     mega_sam_release/checkpoints/megasam_final.pth
 
-2.  Include DepthAnything checkpoint in
-    mega_sam_release/Depth-Anything/checkpoints/depth_anything_vitl14.pth
+2.  Download [DepthAnything checkpoint](https://huggingface.co/spaces/LiheYoung/Depth-Anything/blob/main/checkpoints/depth_anything_vitl14.pth) to
+    mega-sam/Depth-Anything/checkpoints/depth_anything_vitl14.pth
 
-3.  clone torchhub folder from https://github.com/LiheYoung/Depth-Anything/tree/main/torchhub
-    to mega_sam_release/Depth-Anything/torchhub
-
-4. clone unidepth folder from https://github.com/lpiccinelli-eth/UniDepth/tree/main/unidepth
+3. clone unidepth folder from https://github.com/lpiccinelli-eth/UniDepth/tree/main/unidepth
     to mega_sam_release/UniDepth/unidepth
 
-5.  Include UniDepth checkpoint in
+4.  Include UniDepth checkpoint in
     mega_sam_release/UniDepth/unidepth_v2.pth
 
-6.  Include RAFT checkpoint at mega_sam_release/cvd_opt/raft-things.pth
+5.  Include RAFT checkpoint at mega_sam_release/cvd_opt/raft-things.pth
 
 ### Running MegaSaM on Sintel
 
