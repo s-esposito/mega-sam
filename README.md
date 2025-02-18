@@ -11,18 +11,6 @@ Angjoo Kanazawa, Aleksander Holynski, Noah Snavely
 
 *This is not an officially supported Google product.*
 
-## Patching DROID-SLAM
-
-The current codebase is based on DROID-SLAM. To create a full codebase, first
-clone the DROID-SLAM codebase from
-https://github.com/princeton-vl/DROID-SLAM
-(commit 8016d2b9b72b101a3e9ac804ebf20b4c654dc291) to megasam/DROID-SLAM-main,
-then run: `python apply_diffs.py` from the megasam folder.
-This will create a full codebase
-at megasam/mega_sam_release. Then follow the instructions below to install the
-dependencies.
-
-
 ## Instructions for installing dependencies
 
 ### Python Environment
