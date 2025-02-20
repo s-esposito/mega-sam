@@ -36,13 +36,13 @@ evalset=(
   sleeping_2
 )
 
-SINTEL_DIR=/home/zhengqili/Sintel
+DATA_DIR=/home/zhengqili/Sintel
 
 # Run DepthAnything
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICES=0 python Depth-Anything/run_videos.py --encoder vitl \
   --load-from Depth-Anything/checkpoints/depth_anything_vitl14.pth \
-  --img-path $SINTEL_DIR/$seq/rgb \
+  --img-path $DATA_DIR/$seq/rgb \
   --outdir Depth-Anything/video_visualization/$seq
 done
 
@@ -52,6 +52,6 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)/UniDepth"
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICES=0 python UniDepth/scripts/demo_mega-sam.py \
   --scene-name $seq \
-  --img-path $SINTEL_DIR/$seq/rgb \
+  --img-path $DATA_DIR/$seq/rgb \
   --outdir UniDepth/outputs
 done

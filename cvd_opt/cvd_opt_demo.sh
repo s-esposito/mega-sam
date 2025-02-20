@@ -17,14 +17,16 @@
 
 evalset=(
   swing
-  camel
   breakdance-flare
 )
+
+DATA_PATH=/home/zhengqili/filestore/DAVIS/DAVIS/JPEGImages/480p
+
 
 # Run Raft Optical Flows
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
-  --datapath=/home/zhengqili/filestore/DAVIS/DAVIS/JPEGImages/480p/$seq \
+  --datapath=$DATA_PATH/$seq \
   --model=cvd_opt/raft-things.pth \
   --scene_name $seq --mixed_precision
 done

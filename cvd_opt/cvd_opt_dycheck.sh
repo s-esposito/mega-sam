@@ -30,10 +30,13 @@ evalset=(
   paper-windmill
 )
 
+DATA_DIR=/home/zhengqili/dycheck
+
+
 ## Run Raft Optical Flows
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
-  --datapath=/home/zhengqili/dycheck/$seq/dense/images \
+  --datapath=$DATA_DIR/$seq/dense/images \
   --model=cvd_opt/raft-things.pth \
   --scene_name $seq --mixed_precision
 done

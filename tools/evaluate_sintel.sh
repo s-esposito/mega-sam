@@ -14,7 +14,7 @@
 # limitations under the License.
 # ==============================================================================
 
-DATA_PATH=/home/zhengqili/filestore/droid_slam/data/Sintel
+DATA_PATH=/home/zhengqili/Sintel
 CKPT_PATH=checkpoints/megasam_final.pth
 
 evalset=(
@@ -38,6 +38,7 @@ evalset=(
   sleeping_2
 )
 
+# to enable focal length optimization, add --opt_focal
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICE=0 python camera_tracking_scripts/test_sintel.py \
   --datapath=$DATA_PATH \

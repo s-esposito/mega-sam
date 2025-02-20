@@ -103,7 +103,7 @@ if __name__ == "__main__":
       "mountain_1",
       "bamboo_2",
       "bamboo_1",
-  ]  # , "bamboo_2", "alley_1", "alley_2", "mountain_1", "temple_2"]
+  ]
   scene_names += ["ambush_4", "ambush_5", "ambush_6"]
   scene_names += ["market_2", "market_6", "cave_4"]
   scene_names += ["cave_2", "shaman_3", "sleeping_1", "sleeping_2"]

@@ -25,7 +25,8 @@
 
 import sys
 
-sys.path.append("droid_slam")
+sys.path.append("base/droid_slam")
+
 from tqdm import tqdm
 import numpy as np
 import torch

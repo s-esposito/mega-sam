@@ -1,6 +1,6 @@
 # MegaSaM
 
-# 🚧 This repository is still not done being uploaded, please stand by. 🚧 
+# 🚧 This repository is still not done and being uploaded, please stand by. 🚧 
 
 [Project Page]() | [Paper]()
 
@@ -38,27 +38,18 @@ Anaconda.
     `conda install xformers-0.0.22.post7-py310_cu11.8.0_pyt2.0.1.tar.bz2`
 
 3.  Compile the extensions for the camera tracking module: \
-    `python setup.py install`
+    `cd base; python setup.py install`
 
 ### Downloading pretrained checkpoints
 
-1.  Include a pretrained checkpoint in
-    mega_sam_release/checkpoints/megasam_final.pth
-
-2.  Download [DepthAnything checkpoint](https://huggingface.co/spaces/LiheYoung/Depth-Anything/blob/main/checkpoints/depth_anything_vitl14.pth) to
+1.  Download [DepthAnything checkpoint](https://huggingface.co/spaces/LiheYoung/Depth-Anything/blob/main/checkpoints/depth_anything_vitl14.pth) to
     mega-sam/Depth-Anything/checkpoints/depth_anything_vitl14.pth
-<!-- 
-3. clone unidepth folder from https://github.com/lpiccinelli-eth/UniDepth/tree/main/unidepth
-    to mega_sam_release/UniDepth/unidepth -->
-<!-- 
-4.  Include UniDepth checkpoint in
-    mega_sam_release/UniDepth/unidepth_v2.pth -->
 
-5.  Include RAFT checkpoint at mega_sam_release/cvd_opt/raft-things.pth
+2.  Download and include [RAFT checkpoint](https://drive.google.com/drive/folders/1sWDsfuZ3Up38EUQt7-JDTT1HcGHuJgvT) at mega-sam/cvd_opt/raft-things.pth
 
 ### Running MegaSaM on Sintel
 
-1.  Download Sintel data
+1.  Download and unzip [Sintel data] (https://drive.google.com/file/d/1J0BGtdmFlkC679C6gA9NHgWRSmeeASdU/view?usp=sharing)
 
 2.  Precompute mono-depth (Please modify img-path in the script):
     `./mono_depth_scripts/run_mono-depth_sintel.sh`
@@ -70,14 +61,14 @@ Anaconda.
 4.  Running consistent video depth optimization given estimated cameras (Please
     modify datapath in the script): `./cvd_opt/cvd_opt_sintel.sh`
 
-5.  Evaluate camera poses and depths:
+5.  Evaluate camera poses and depths: \
     `python ./evaluations_poses/evaluate_sintel.py`
 
     `python ./evaluations_depth/evaluate_depth_ours_sintel.py`
 
 ### Running MegaSaM on DyCheck
 
-1.  Download Dycheck data
+1.  Download [Dycheck data] (https://drive.google.com/drive/folders/1jmurlt73uIosTOnvy05VWzg0zkvEak9M?usp=sharing)
 
 2.  Precompute mono-depth (Please modify img-path in the script):
     `./mono_depth_scripts/run_mono-depth_dycheck.sh`
@@ -90,14 +81,14 @@ Anaconda.
     modify datapath in the script):
     `./cvd_opt/cvd_opt_dycheck.sh`
 
-5.  Evaluate camera poses and depths:
+5.  Evaluate camera poses and depths: \
     `python ./evaluations_poses/evaluate_dycheck.py`
 
     `python ./evaluations_depth/evaluate_depth_ours_dycheck.py`
 
 ### Running MegaSaM on in-the-wild video, for example from DAVIS videos
 
-1.  Download DAVIS data
+1.  Download example [DAVIS data] (https://drive.google.com/file/d/1mis066CUvfBtDZWZ9-ONDqCdno5nmYLe/view?usp=sharing)
 
 2.  Precompute mono-depth (Please modify img-path in the script):
     `./mono_depth_scripts/run_mono-depth_demo.sh`

@@ -36,11 +36,12 @@ evalset=(
   sleeping_2
 )
 
+DATA_DIR=/home/zhengqili/Sintel
 
 # Run Raft Optical Flows
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
-  --datapath=/home/zhengqili/filestore/droid_slam/data/Sintel/$seq/rgb \
+  --datapath=$DATA_DIR/$seq/rgb \
   --model=cvd_opt/raft-things.pth \
   --scene_name $seq --mixed_precision
 done

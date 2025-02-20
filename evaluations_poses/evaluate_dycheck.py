@@ -28,7 +28,7 @@ import numpy as np
 import torch
 
 sys.path.append(os.path.realpath("."))
-import droid_slam.colmap_read_model as read_model
+import camera_tracking_scripts.colmap_read_model as read_model
 
 
 def load_colmap_data(realdir):

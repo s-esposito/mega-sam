@@ -18,8 +18,7 @@ DATA_PATH=/home/zhengqili/filestore/DAVIS/DAVIS/JPEGImages/480p
 CKPT_PATH=checkpoints/megasam_final.pth
 
 evalset=(
-swing
-   camel
+   swing
    breakdance-flare
 )
 
