@@ -1,6 +1,6 @@
 # MegaSaM
 
-# 🚧 This repository is still not done and being uploaded, please stand by. 🚧 
+<!-- # 🚧 This repository is still not done and being uploaded, please stand by. 🚧  -->
 
 [Project Page](https://mega-sam.github.io/index.html) | [Paper](https://arxiv.org/abs/2412.04463)
 
