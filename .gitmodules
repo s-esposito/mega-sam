@@ -3,4 +3,4 @@
 	url = https://github.com/mega-sam/base.git
 [submodule "UniDepth"]
 	path = UniDepth
-	url = https://github.com/lpiccinelli-eth/UniDepth
+	url = https://github.com/lpiccinelli-eth/UniDepth.git
