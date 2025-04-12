@@ -103,7 +103,7 @@ Anaconda.
 
 ### Contact
 
-For any questions related to our paper, please send email to zl548@cornell.com.
+For any questions related to our paper, please send email to zl548@cornell.edu.
 
 
 ### Bibtex
