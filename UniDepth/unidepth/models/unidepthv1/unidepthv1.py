@@ -15,11 +15,9 @@ from einops import rearrange
 from huggingface_hub import PyTorchModelHubMixin
 
 from unidepth.models.unidepthv1.decoder import Decoder
-from unidepth.utils.constants import (IMAGENET_DATASET_MEAN,
-                                      IMAGENET_DATASET_STD)
+from unidepth.utils.constants import IMAGENET_DATASET_MEAN, IMAGENET_DATASET_STD
 from unidepth.utils.distributed import is_main_process
-from unidepth.utils.geometric import (generate_rays,
-                                      spherical_zbuffer_to_euclidean)
+from unidepth.utils.geometric import generate_rays, spherical_zbuffer_to_euclidean
 from unidepth.utils.misc import get_params
 
 MAP_BACKBONES = {"ViTL14": "vitl14", "ConvNextL": "cnvnxtl"}

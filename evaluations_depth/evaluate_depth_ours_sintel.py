@@ -22,102 +22,98 @@ import numpy as np
 
 
 if __name__ == "__main__":
-  scene_names = ["alley_1", "alley_2", "temple_2", "temple_3", "market_5"]
-  scene_names += ["mountain_1", "bamboo_2", "bamboo_1"]
-  scene_names += ["ambush_4", "ambush_5", "ambush_6"]
-  scene_names += ["market_2", "market_6", "cave_4"]
-  scene_names += ["cave_2", "shaman_3", "sleeping_1", "sleeping_2"]
-  ate = []
-  rte = []
-  rre = []
+    scene_names = ["alley_1", "alley_2", "temple_2", "temple_3", "market_5"]
+    scene_names += ["mountain_1", "bamboo_2", "bamboo_1"]
+    scene_names += ["ambush_4", "ambush_5", "ambush_6"]
+    scene_names += ["market_2", "market_6", "cave_4"]
+    scene_names += ["cave_2", "shaman_3", "sleeping_1", "sleeping_2"]
+    ate = []
+    rte = []
+    rre = []
 
-  gt_root_dir = "/home/zhengqili/filestore/droid_slam/data/Sintel"
-  pred_root_dir = "./outputs_cvd_sintel"
+    gt_root_dir = "/home/zhengqili/filestore/droid_slam/data/Sintel"
+    pred_root_dir = "./outputs_cvd_sintel"
 
-  abs_rel_list = []
-  log_rmse_list = []
-  threshold_1_list = []
-  threshold_2_list = []
-  threshold_3_list = []
+    abs_rel_list = []
+    log_rmse_list = []
+    threshold_1_list = []
+    threshold_2_list = []
+    threshold_3_list = []
 
-  for scene_name in scene_names:
-    print(scene_name)
-    gt_list = sorted(
-        glob.glob(os.path.join(gt_root_dir, scene_name, "depth", "*.npy"))
-    )
-
-    gt_depth_list = []
-    for i, gt_path in enumerate(gt_list):
-      gt_depth = np.float32(np.load(gt_path))
-      h0, w0 = gt_depth.shape
-      h1 = int(h0 * np.sqrt((384 * 512) / (h0 * w0)))
-      w1 = int(w0 * np.sqrt((384 * 512) / (h0 * w0)))
-      gt_depth = cv2.resize(gt_depth, (w1, h1), interpolation=cv2.INTER_LINEAR)
-      gt_depth = gt_depth[: h1 - h1 % 8, : w1 - w1 % 8]
-      gt_depth_list.append(gt_depth)
-
-    gt_depths = np.array(gt_depth_list)
-    gt_depths = np.nan_to_num(
-        gt_depths, copy=True, nan=0.0, posinf=1e3, neginf=0.0
-    )
-
-    cvd_data = np.load(
-        os.path.join(pred_root_dir, "%s_sgd_cvd_hr.npz" % scene_name)
-    )
-    pred_depths = cvd_data["depths"]
-
-    assert pred_depths.shape == gt_depths.shape
-    valid_mask = (gt_depths < 100) & (gt_depths > 0.1)
-
-    pred_depths = np.clip(pred_depths, 0.1, 100.0)
-    gt_depths = np.clip(gt_depths, 0.1, 100.0)
-
-    gt_d_ms = gt_depths[valid_mask] - np.median(gt_depths[valid_mask]) + 1e-6
-    pred_d_ms = (
-        pred_depths[valid_mask] - np.median(pred_depths[valid_mask]) + 1e-6
-    )
-
-    scale = np.median(gt_d_ms / pred_d_ms)
-    shift = np.median(gt_depths[valid_mask] - scale * pred_depths[valid_mask])
-
-    pred_depths = pred_depths * scale + shift
-
-    abs_rel = np.mean(
-        np.abs(pred_depths[valid_mask] - gt_depths[valid_mask])
-        / gt_depths[valid_mask]
-    )
-    log_rmse = np.sqrt(
-        np.mean(
-            (
-                np.log(np.clip(pred_depths[valid_mask], 1e-3, 1e6))
-                - np.log(gt_depths[valid_mask])
-            )
-            ** 2
+    for scene_name in scene_names:
+        print(scene_name)
+        gt_list = sorted(
+            glob.glob(os.path.join(gt_root_dir, scene_name, "depth", "*.npy"))
         )
-    )
 
-    # Calculate the accuracy thresholds
-    max_ratio = np.maximum(
-        pred_depths[valid_mask] / gt_depths[valid_mask],
-        gt_depths[valid_mask] / pred_depths[valid_mask],
-    )
-    threshold_1 = np.mean(max_ratio < 1.25)
-    threshold_2 = np.mean(max_ratio < 1.25**2)
-    threshold_3 = np.mean(max_ratio < 1.25**3)
+        gt_depth_list = []
+        for i, gt_path in enumerate(gt_list):
+            gt_depth = np.float32(np.load(gt_path))
+            h0, w0 = gt_depth.shape
+            h1 = int(h0 * np.sqrt((384 * 512) / (h0 * w0)))
+            w1 = int(w0 * np.sqrt((384 * 512) / (h0 * w0)))
+            gt_depth = cv2.resize(gt_depth, (w1, h1), interpolation=cv2.INTER_LINEAR)
+            gt_depth = gt_depth[: h1 - h1 % 8, : w1 - w1 % 8]
+            gt_depth_list.append(gt_depth)
 
-    print(scene_name)
-    print("abs_rel ", abs_rel)
-    print("log_rmse ", log_rmse)
-    print("threshold_1 ", threshold_1)
+        gt_depths = np.array(gt_depth_list)
+        gt_depths = np.nan_to_num(gt_depths, copy=True, nan=0.0, posinf=1e3, neginf=0.0)
 
-    abs_rel_list.append(abs_rel)
-    log_rmse_list.append(log_rmse)
-    threshold_1_list.append(threshold_1)
-    threshold_2_list.append(threshold_2)
-    threshold_3_list.append(threshold_3)
+        cvd_data = np.load(
+            os.path.join(pred_root_dir, "%s_sgd_cvd_hr.npz" % scene_name)
+        )
+        pred_depths = cvd_data["depths"]
 
-  print("abs_rel: ", np.mean(abs_rel_list))
-  print("log_rmse: ", np.mean(log_rmse_list))
-  print("threshold_1: ", np.mean(threshold_1_list))
-  print("threshold_2: ", np.mean(threshold_2_list))
-  print("threshold_3: ", np.mean(threshold_3_list))
+        assert pred_depths.shape == gt_depths.shape
+        valid_mask = (gt_depths < 100) & (gt_depths > 0.1)
+
+        pred_depths = np.clip(pred_depths, 0.1, 100.0)
+        gt_depths = np.clip(gt_depths, 0.1, 100.0)
+
+        gt_d_ms = gt_depths[valid_mask] - np.median(gt_depths[valid_mask]) + 1e-6
+        pred_d_ms = pred_depths[valid_mask] - np.median(pred_depths[valid_mask]) + 1e-6
+
+        scale = np.median(gt_d_ms / pred_d_ms)
+        shift = np.median(gt_depths[valid_mask] - scale * pred_depths[valid_mask])
+
+        pred_depths = pred_depths * scale + shift
+
+        abs_rel = np.mean(
+            np.abs(pred_depths[valid_mask] - gt_depths[valid_mask])
+            / gt_depths[valid_mask]
+        )
+        log_rmse = np.sqrt(
+            np.mean(
+                (
+                    np.log(np.clip(pred_depths[valid_mask], 1e-3, 1e6))
+                    - np.log(gt_depths[valid_mask])
+                )
+                ** 2
+            )
+        )
+
+        # Calculate the accuracy thresholds
+        max_ratio = np.maximum(
+            pred_depths[valid_mask] / gt_depths[valid_mask],
+            gt_depths[valid_mask] / pred_depths[valid_mask],
+        )
+        threshold_1 = np.mean(max_ratio < 1.25)
+        threshold_2 = np.mean(max_ratio < 1.25**2)
+        threshold_3 = np.mean(max_ratio < 1.25**3)
+
+        print(scene_name)
+        print("abs_rel ", abs_rel)
+        print("log_rmse ", log_rmse)
+        print("threshold_1 ", threshold_1)
+
+        abs_rel_list.append(abs_rel)
+        log_rmse_list.append(log_rmse)
+        threshold_1_list.append(threshold_1)
+        threshold_2_list.append(threshold_2)
+        threshold_3_list.append(threshold_3)
+
+    print("abs_rel: ", np.mean(abs_rel_list))
+    print("log_rmse: ", np.mean(log_rmse_list))
+    print("threshold_1: ", np.mean(threshold_1_list))
+    print("threshold_2: ", np.mean(threshold_2_list))
+    print("threshold_3: ", np.mean(threshold_3_list))

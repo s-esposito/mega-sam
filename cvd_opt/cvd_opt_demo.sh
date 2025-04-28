@@ -14,27 +14,20 @@
 # limitations under the License.
 # ==============================================================================
 
-
-evalset=(
-  swing
-  breakdance-flare
-)
-
-DATA_PATH=/home/zhengqili/filestore/DAVIS/DAVIS/JPEGImages/480p
+DATA_PATH=$1
+seq=$2
 
 
 # Run Raft Optical Flows
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
+CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
   --datapath=$DATA_PATH/$seq \
-  --model=cvd_opt/raft-things.pth \
-  --scene_name $seq --mixed_precision
-done
+  --path=cvd_opt/checkpoints/Tartan-C-T-TSKH-spring540x960-M.pth \
+  --cfg=cvd_opt/config/eval/spring-L.json \
+  --scene_name $seq
+  # --mixed_precision
 
-# Run CVD optmization
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
-  --scene_name $seq \
-  --w_grad 2.0 --w_normal 5.0
-done
+# # Run CVD optmization
+# CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
+#   --scene_name $seq \
+#   --w_grad 2.0 --w_normal 5.0
 

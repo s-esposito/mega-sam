@@ -1,11 +1,11 @@
 # torch-2.0.1+cu180
-conda create -n mega_sam python=3.10
+conda create -n mega_sam python=3.10 numpy==1.26.3
 conda activate mega_sam
 conda install conda-forge::cudatoolkit=11.8
 conda install nvidia/label/cuda-11.8.0::cuda-toolkit
 conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
 pip install torch-scatter -f https://data.pyg.org/whl/torch-2.0.1+cu118.html
-pip install opencv-python tqdm imageio einops scipy matplotlib wandb timm ninja numpy huggingface-hub kornia ipython
+pip install opencv-python tqdm imageio einops scipy matplotlib wandb timm ninja huggingface-hub kornia ipython black
 wget https://anaconda.org/xformers/xformers/0.0.22.post7/download/linux-64/xformers-0.0.22.post7-py310_cu11.8.0_pyt2.0.1.tar.bz2
 conda install xformers-0.0.22.post7-py310_cu11.8.0_pyt2.0.1.tar.bz2
 cd base

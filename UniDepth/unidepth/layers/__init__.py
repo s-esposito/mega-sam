@@ -4,8 +4,7 @@ from .convnext import CvnxtBlock
 from .mlp import MLP
 from .nystrom_attention import NystromBlock
 from .positional_encoding import PositionEmbeddingSine
-from .upsample import (ConvUpsample, ConvUpsampleShuffle,
-                       ConvUpsampleShuffleResidual)
+from .upsample import ConvUpsample, ConvUpsampleShuffle, ConvUpsampleShuffleResidual
 
 __all__ = [
     "SwiGLU",

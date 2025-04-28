@@ -15,27 +15,20 @@
 # ==============================================================================
 
 
-evalset=(
-  swing
-  breakdance-flare
-)
+DATA_PATH=$1
+seq=$2
 
-DATA_DIR=/home/zhengqili/filestore/DAVIS/DAVIS/JPEGImages/480p
 
 # Run DepthAnything
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python Depth-Anything/run_videos.py --encoder vitl \
+CUDA_VISIBLE_DEVICES=0 python Depth-Anything/run_videos.py --encoder vitl \
   --load-from Depth-Anything/checkpoints/depth_anything_vitl14.pth \
-  --img-path $DATA_DIR/$seq \
+  --img-path $DATA_PATH/$seq \
   --outdir Depth-Anything/video_visualization/$seq
-done
 
 # Run UniDepth
 export PYTHONPATH="${PYTHONPATH}:$(pwd)/UniDepth"
 
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python UniDepth/scripts/demo_mega-sam.py \
+CUDA_VISIBLE_DEVICES=0 python UniDepth/scripts/demo_mega-sam.py \
   --scene-name $seq \
-  --img-path $DATA_DIR/$seq \
+  --img-path $DATA_PATH/$seq \
   --outdir UniDepth/outputs
-done

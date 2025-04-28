@@ -1,5 +1,12 @@
 
 .vscode
-data
+datasets
 cvd_opt/checkpoints/raft-things.pth
 Depth-Anything/checkpoints/depth_anything_vitl14.pth
+cache_flow
+*.pyc
+Depth-Anything/video_visualization
+outputs_vis
+UniDepth/outputs
+reconstructions
+outputs
