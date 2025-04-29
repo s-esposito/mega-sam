@@ -19,15 +19,20 @@ seq=$2
 
 
 # Run Raft Optical Flows
-CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
-  --datapath=$DATA_PATH/$seq \
-  --path=cvd_opt/checkpoints/Tartan-C-T-TSKH-spring540x960-M.pth \
-  --cfg=cvd_opt/config/eval/spring-L.json \
-  --scene_name $seq
-  # --mixed_precision
+# CUDA_VISIBLE_DEVICES=0 python cvd_opt/sea_raft_preprocess_flow.py \
+#   --datapath=$DATA_PATH/$seq \
+#   --path=cvd_opt/checkpoints/Tartan-C-T-TSKH-spring540x960-M.pth \
+#   --cfg=cvd_opt/config/eval/spring-L.json \
+#   --scene_name $seq
 
-# # Run CVD optmization
-# CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
+# CUDA_VISIBLE_DEVICES=0 python cvd_opt/raft_preprocess_flow.py \
+#   --datapath=$DATA_PATH/$seq \
+#   --model=cvd_opt/checkpoints/raft-things.pth \
 #   --scene_name $seq \
-#   --w_grad 2.0 --w_normal 5.0
+#   --mixed_precision
+
+# Run CVD optmization
+CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
+  --scene_name $seq \
+  --w_grad 2.0 --w_normal 5.0
 

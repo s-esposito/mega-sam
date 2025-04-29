@@ -99,7 +99,8 @@ def consistency_loss(
     w_normal=4.0,
 ):
     """Consistency loss."""
-    _, H, W = disp_data.shape
+
+    _, H, W = disp_data.shape  # [T, H_d, W_d]
     # mesh grid
     xx = torch.arange(0, W).view(1, -1).repeat(H, 1)
     yy = torch.arange(0, H).view(-1, 1).repeat(1, W)
@@ -268,19 +269,48 @@ if __name__ == "__main__":
     img_data_pt = (
         torch.from_numpy(np.ascontiguousarray(img_data)).float().cuda() / 255.0
     )
-    flows = torch.from_numpy(np.ascontiguousarray(flows)).float().cuda()
-    flow_masks = (
-        torch.from_numpy(np.ascontiguousarray(flow_masks)).float().cuda()
-    )  # .unsqueeze(1)
-    iijj = torch.from_numpy(np.ascontiguousarray(iijj)).float().cuda()
-    ii = iijj[0, ...].long()
-    jj = iijj[1, ...].long()
+
     K = torch.from_numpy(K).float().cuda()
+    print("K", K.shape)
 
     init_disp = torch.from_numpy(disp_data).float().cuda()
     disp_data = torch.from_numpy(disp_data).float().cuda()
+    print("init_disp", init_disp.shape)
+    print("disp_data", disp_data.shape)
 
     assert init_disp.shape == disp_data.shape
+
+    flows = torch.from_numpy(np.ascontiguousarray(flows)).float().cuda()
+    print("flows", flows.shape)  # (F, 2, H, W)
+
+    # downscale to disp resolution
+    flows_target_size = disp_data.shape[-2:]
+    print("flows_target_size", flows_target_size)
+    flows = torch.nn.functional.interpolate(
+        flows,
+        size=flows_target_size,
+        mode="bilinear",
+    )
+    print("flows", flows.shape)  # (F, 2, H, W)
+
+    flow_masks = (
+        torch.from_numpy(np.ascontiguousarray(flow_masks)).float().cuda()
+    )  # .unsqueeze(1)
+    print("flow_masks", flow_masks.shape)  # (F, 1, H, W)
+
+    # downscale to disp resolution
+    flow_masks = torch.nn.functional.interpolate(
+        flow_masks,
+        size=flows_target_size,
+        mode="bilinear",
+    )
+    print("flow_masks", flow_masks.shape)  # (F, 1, H, W)
+
+    iijj = torch.from_numpy(np.ascontiguousarray(iijj)).float().cuda()
+    print("iijj", iijj.shape)
+
+    ii = iijj[0, ...].long()
+    jj = iijj[1, ...].long()
 
     init_disp = torch.nn.functional.interpolate(
         init_disp.unsqueeze(1),
@@ -292,9 +322,26 @@ if __name__ == "__main__":
         scale_factor=(RESIZE_FACTOR, RESIZE_FACTOR),
         mode="bilinear",
     ).squeeze(1)
+    print("init_disp", init_disp.shape)
+    print("disp_data", disp_data.shape)
+
+    flows = torch.nn.functional.interpolate(
+        flows,
+        scale_factor=(RESIZE_FACTOR, RESIZE_FACTOR),
+        mode="bilinear",
+    )
+    print("flows", flows.shape)
+
+    flow_masks = torch.nn.functional.interpolate(
+        flow_masks,
+        scale_factor=(RESIZE_FACTOR, RESIZE_FACTOR),
+        mode="bilinear",
+    )
+    print("flow_masks", flow_masks.shape)
 
     fg_alpha = sobel_fg_alpha(init_disp[:, None, ...]) > 0.2
     fg_alpha = fg_alpha.squeeze(1).float() + 0.2
+    print("fg_alpha", fg_alpha.shape)
 
     cvd_prob = torch.nn.functional.interpolate(
         torch.from_numpy(mot_prob).unsqueeze(1).cuda(),
@@ -303,6 +350,13 @@ if __name__ == "__main__":
     )
     cvd_prob[cvd_prob > 0.5] = 0.5
     cvd_prob = torch.clamp(cvd_prob, 1e-3, 1.0)
+    print("cvd_prob", cvd_prob.shape)
+
+    assert flows.shape[2] == disp_data.shape[1] and flows.shape[3] == disp_data.shape[2]
+    assert (
+        flow_masks.shape[2] == disp_data.shape[1]
+        and flow_masks.shape[3] == disp_data.shape[2]
+    )
 
     # rescale intrinsic matrix to small resolution
     K_o = K.clone()
@@ -435,7 +489,9 @@ if __name__ == "__main__":
     np.savez(
         "%s/%s_sgd_cvd_hr.npz" % (output_dir, scene_name),
         images=np.uint8(img_data_pt.cpu().numpy().transpose(0, 2, 3, 1) * 255.0),
-        depths=np.clip(np.float16(1.0 / disp_data_opt), 1e-3, 1e2),
+        depths=np.clip(1.0 / np.clip(disp_data_opt, 1e-3, None), 1e-3, 1e2).astype(
+            np.float16
+        ),
         intrinsic=K_o.detach().cpu().numpy(),
         cam_c2w=cam_c2w.detach().cpu().numpy(),
     )
