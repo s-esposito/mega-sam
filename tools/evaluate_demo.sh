@@ -26,6 +26,6 @@ CUDA_VISIBLE_DEVICE=0 python camera_tracking_scripts/test_demo.py \
     --scene_name $seq \
     --mono_depth_path $(pwd)/Depth-Anything/video_visualization \
     --metric_depth_path $(pwd)/UniDepth/outputs \
-    --upsample \
-    --disable_vis $@
+    --disable_vis \
+    --upsample
 

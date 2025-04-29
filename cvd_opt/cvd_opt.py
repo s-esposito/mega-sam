@@ -485,13 +485,21 @@ if __name__ == "__main__":
 
     # poses_ = poses_th.detach().cpu().numpy()
 
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    np.savez(
-        "%s/%s_sgd_cvd_hr.npz" % (output_dir, scene_name),
-        images=np.uint8(img_data_pt.cpu().numpy().transpose(0, 2, 3, 1) * 255.0),
-        depths=np.clip(1.0 / np.clip(disp_data_opt, 1e-3, None), 1e-3, 1e2).astype(
-            np.float16
-        ),
-        intrinsic=K_o.detach().cpu().numpy(),
-        cam_c2w=cam_c2w.detach().cpu().numpy(),
-    )
+    # Path(output_dir).mkdir(parents=True, exist_ok=True)
+    # np.savez(
+    #     "%s/%s_sgd_cvd_hr.npz" % (output_dir, scene_name),
+    #     images=np.uint8(img_data_pt.cpu().numpy().transpose(0, 2, 3, 1) * 255.0),
+    #     depths=np.clip(1.0 / np.clip(disp_data_opt, 1e-3, None), 1e-3, 1e2).astype(
+    #         np.float16
+    #     ),
+    #     intrinsic=K_o.detach().cpu().numpy(),
+    #     cam_c2w=cam_c2w.detach().cpu().numpy(),
+    # )
+    
+    # save depths as 00000.npy
+    depths = np.clip(1.0 / np.clip(disp_data_opt, 1e-3, None), 1e-3, 1e2).astype(np.float16)
+    depth_path = os.path.join(output_dir, scene_name)
+    if not os.path.exists(depth_path):
+        os.makedirs(depth_path)
+    for i in range(depths.shape[0]):
+        np.save(os.path.join(depth_path, f"{i:05d}.npy"), depths[i])

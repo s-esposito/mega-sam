@@ -33,7 +33,7 @@ if __name__ == "__main__":
     print(args)
 
     # check if cvd_path exists (${seq}_sgd_cvd_hr.npz)
-    cvd_path = os.path.join(args.cvd_path, args.scene_name) + "_sgd_cvd_hr.npz"
+    cvd_path = os.path.join(args.cvd_path, args.scene_name)
     if not os.path.exists(cvd_path):
         raise ValueError(f"{cvd_path} does not exist!")
 
@@ -52,13 +52,18 @@ if __name__ == "__main__":
     if not os.path.exists(vis_outputs_path):
         os.makedirs(vis_outputs_path)
 
-    # load cvd
-    cvd = np.load(cvd_path)
+    # get all files in cvd_path (.npy)
+    depths_paths = sorted(glob.glob(os.path.join(cvd_path, "*.npy")))
+    depths = []
+    for depth_path in depths_paths:
+        depth = np.load(depth_path)
+        depths.append(depth)
+    depths = np.array(depths)
 
-    # images = cvd["images"]
-    depths = cvd["depths"]
-    intrinsic = cvd["intrinsic"]
-    cam_c2w = cvd["cam_c2w"]
+    # # images = cvd["images"]
+    # depths = cvd["depths"]
+    # intrinsic = cvd["intrinsic"]
+    # cam_c2w = cvd["cam_c2w"]
 
     # images
     images = []

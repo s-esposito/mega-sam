@@ -25,11 +25,11 @@ seq=$2
 #   --cfg=cvd_opt/config/eval/spring-L.json \
 #   --scene_name $seq
 
-# CUDA_VISIBLE_DEVICES=0 python cvd_opt/raft_preprocess_flow.py \
-#   --datapath=$DATA_PATH/$seq \
-#   --model=cvd_opt/checkpoints/raft-things.pth \
-#   --scene_name $seq \
-#   --mixed_precision
+CUDA_VISIBLE_DEVICES=0 python cvd_opt/raft_preprocess_flow.py \
+  --datapath=$DATA_PATH/$seq \
+  --model=cvd_opt/checkpoints/raft-things.pth \
+  --scene_name $seq \
+  --mixed_precision
 
 # Run CVD optmization
 CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
