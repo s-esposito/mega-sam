@@ -101,16 +101,6 @@ def warp_flow(img, flow):
     return res
 
 
-def resize_flow(flow, img_h, img_w):
-    # flow = np.load(flow_path)
-    flow_h, flow_w = flow.shape[0], flow.shape[1]
-    flow[:, :, 0] *= float(img_w) / float(flow_w)
-    flow[:, :, 1] *= float(img_h) / float(flow_h)
-    flow = cv2.resize(flow, (img_w, img_h), cv2.INTER_LINEAR)
-
-    return flow
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--path", default="raft-things.pth", help="restore checkpoint")
@@ -251,19 +241,6 @@ if __name__ == "__main__":
                 # flow_low_bwd = flow_low[1].cpu().numpy().transpose(1, 2, 0)
                 # print("flow_low_fwd", flow_low_fwd.shape)
                 # print("flow_low_bwd", flow_low_bwd.shape)
-
-                # flow_low_fwd = resize_flow(
-                #     flow_up[0].cpu().numpy().transpose(1, 2, 0),
-                #     flow_up.shape[-2] // 2,
-                #     flow_up.shape[-1] // 2,
-                # )
-                # flow_up_bwd = resize_flow(
-                #     flow_up[1].cpu().numpy().transpose(1, 2, 0),
-                #     flow_up.shape[-2] // 2,
-                #     flow_up.shape[-1] // 2,
-                # )
-                # print("flow_up_fwd", flow_up_fwd.shape)
-                # print("flow_up_bwd", flow_up_bwd.shape)
 
                 bwd2fwd_flow = warp_flow(flow_up_bwd, flow_up_fwd)
                 fwd_lr_error = np.linalg.norm(flow_up_fwd + bwd2fwd_flow, axis=-1)

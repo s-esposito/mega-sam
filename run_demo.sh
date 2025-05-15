@@ -3,8 +3,11 @@
 DATA_PATH=datasets/davis/JPEGImages/Full-Resolution
 
 evalset=(
-    # car-turn
-    hike
+    car-turn
+    # hike
+    # motorbike
+    # blackswan
+    # bus
 )
 
 

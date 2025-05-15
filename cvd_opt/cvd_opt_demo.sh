@@ -34,5 +34,6 @@ CUDA_VISIBLE_DEVICES=0 python cvd_opt/raft_preprocess_flow.py \
 # Run CVD optmization
 CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
   --scene_name $seq \
-  --w_grad 2.0 --w_normal 5.0
-
+  --output_dir outputs_cvd \
+  --w_grad 2.0 \
+  --w_normal 5.0

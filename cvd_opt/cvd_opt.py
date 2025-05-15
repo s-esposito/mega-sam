@@ -147,6 +147,8 @@ def consistency_loss(
     disp_tgt = 1.0 / torch.clamp(depth_tgt, 0.1, 1e3)
 
     # flow consistency loss
+    print("pts_3d_tgt", pts_3d_tgt.shape)
+    print("K[None, None, None]", K[None, None, None].shape)
     pts_2D_tgt = K[None, None, None] @ pts_3d_tgt
 
     flow_masks_step_ = flow_masks_step * (pts_2D_tgt[:, :, :, 2, 0] > 0.1)
@@ -311,6 +313,12 @@ if __name__ == "__main__":
 
     ii = iijj[0, ...].long()
     jj = iijj[1, ...].long()
+    
+    print("init_disp", init_disp.shape)
+    # import matplotlib.pyplot as plt
+    # plt.imshow(init_disp[0].cpu().numpy())
+    # plt.colorbar()
+    # plt.show()
 
     init_disp = torch.nn.functional.interpolate(
         init_disp.unsqueeze(1),

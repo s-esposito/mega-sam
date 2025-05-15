@@ -28,7 +28,8 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-
+    print(args)
+    
     margin_width = 50
     caption_height = 60
 

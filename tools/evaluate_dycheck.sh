@@ -14,34 +14,18 @@
 # limitations under the License.
 # ==============================================================================
 
-DATA_PATH=/home/zhengqili/dycheck
+DATA_PATH=$1
+seq=$2
+
 CKPT_PATH=checkpoints/megasam_final.pth
 
-evalset=(
-  apple
-  backpack
-  block
-  creeper
-  handwavy
-  haru-sit
-  mochi-high-five
-  pillow
-  spin
-  sriracha-tree
-  teddy
-  paper-windmill
-)
-
-
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python camera_tracking_scripts/test_dycheck.py \
-  --datapath=$DATA_PATH \
-  --weights=$CKPT_PATH \
-  --scene_name $seq \
-  --mono_depth_path $(pwd)/Depth-Anything/video_visualization \
-  --metric_depth_path $(pwd)/UniDepth/outputs \
-  --disable_vis $@ #--opt_focal
-done
+CUDA_VISIBLE_DEVICES=0 python camera_tracking_scripts/test_dycheck.py \
+    --datapath=$DATA_PATH \
+    --weights=$CKPT_PATH \
+    --scene_name $seq \
+    --mono_depth_path $(pwd)/Depth-Anything/video_visualization \
+    --metric_depth_path $(pwd)/UniDepth/outputs \
+    --disable_vis
 
 
 

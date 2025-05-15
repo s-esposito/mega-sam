@@ -15,37 +15,21 @@
 # ==============================================================================
 
 
-evalset=(
-  apple
-  backpack
-  block
-  creeper
-  handwavy
-  haru-sit
-  mochi-high-five
-  pillow
-  spin
-  sriracha-tree
-  teddy
-  paper-windmill
-)
-
-DATA_DIR=/home/zhengqili/dycheck
+DATA_PATH=$1
+seq=$2
 
 
-## Run Raft Optical Flows
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python cvd_opt/preprocess_flow.py \
-  --datapath=$DATA_DIR/$seq/dense/images \
-  --model=cvd_opt/raft-things.pth \
-  --scene_name $seq --mixed_precision
-done
+# Run Raft Optical Flows
+CUDA_VISIBLE_DEVICES=0 python cvd_opt/raft_preprocess_flow.py \
+  --datapath=$DATA_PATH/$seq/dense/images \
+  --model=cvd_opt/checkpoints/raft-things.pth \
+  --scene_name $seq \
+  --mixed_precision
+
 
 # Run CVD optmization
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
+CUDA_VISIBLE_DEVICES=0 python cvd_opt/cvd_opt.py \
   --scene_name $seq \
-  --output_dir outputs_cvd_dycheck \
+  --output_dir outputs_cvd \
   --w_grad 2.0 \
   --w_normal 5.0
-done
